@@ -240,16 +240,35 @@ export function ReadingContainer({ paragraph }: { paragraph: string[] }) {
       </nav>
 
       <div className="flex flex-col items-center justify-center">
+        {pause ? (
+          <AnimatePresence>
+            <motion.p
+              className="fixed top-[150px] w-[70%]"
+              variants={variants}
+              initial="hide"
+              animate="show"
+              exit="hide"
+            >
+              {paragraph.map((p, i) => (
+                <>
+                  <span
+                    className={wordIndex - 1 === i ? "bg-slate-500" : ""}
+                    key={i}
+                  >
+                    {p}
+                  </span>
+                  <span> </span>
+                </>
+              ))}
+            </motion.p>
+          </AnimatePresence>
+        ) : null}
+
+        <motion.h1 key={word} className="text-center text-7xl font-bold">
+          {word}
+        </motion.h1>
+
         <AnimatePresence>
-          <motion.h1
-            className="text-center text-7xl font-bold"
-            variants={variants}
-            initial="hide"
-            animate="show"
-            exit="hide"
-          >
-            {word}
-          </motion.h1>
           {pause ? (
             <motion.span
               className="text-center text-xl font-light text-[#bdbdbd]"
