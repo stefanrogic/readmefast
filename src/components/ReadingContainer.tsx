@@ -197,11 +197,11 @@ export function ReadingContainer({ paragraph }: { paragraph: string[] }) {
       </nav>
       <div className="flex flex-col items-center justify-center">
         {pause && (
-          <span className="text-xl font-light text-[#bdbdbd]">
+          <span className="text-center text-xl font-light text-[#bdbdbd]">
             Mali Princ - Odlomak
           </span>
         )}
-        <motion.h1 className="text-7xl font-bold">{word}</motion.h1>
+        <motion.h1 className="text-center text-7xl font-bold">{word}</motion.h1>
       </div>
     </>
   );
