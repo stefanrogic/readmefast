@@ -73,7 +73,7 @@ export function ReadingContainer({ paragraph }: { paragraph: string[] }) {
 
   return (
     <>
-      <nav className="fixed right-0 top-0 flex h-full flex-col items-end justify-between p-10 opacity-50 transition delay-100 ease-in-out hover:opacity-100">
+      <nav className="fixed right-0 top-0 flex h-full flex-col items-end justify-between p-10 opacity-50 transition duration-150 ease-in-out hover:opacity-100">
         <div className="flex flex-col gap-2">
           <span className="text-wrap text-center">
             {pause
@@ -83,7 +83,7 @@ export function ReadingContainer({ paragraph }: { paragraph: string[] }) {
           {pause ? (
             <>
               <button
-                className="ms-auto bg-[#ffffff] p-5 font-bold text-[#000000]"
+                className="ms-auto bg-[#ffffff] p-5 font-bold text-[#000000] transition duration-100 ease-in-out hover:bg-[#000000] hover:text-[#ffffff]"
                 onClick={() => setDefaultSpeed(defaultSpeed + 100)}
               >
                 <svg
@@ -103,7 +103,7 @@ export function ReadingContainer({ paragraph }: { paragraph: string[] }) {
               </button>
 
               <button
-                className="ms-auto bg-[#ffffff] p-5 font-bold text-[#000000]"
+                className="ms-auto bg-[#ffffff] p-5 font-bold text-[#000000] transition duration-100 ease-in-out hover:bg-[#000000] hover:text-[#ffffff]"
                 onClick={() =>
                   setDefaultSpeed(defaultSpeed > 0 ? defaultSpeed - 100 : 0)
                 }
@@ -131,7 +131,7 @@ export function ReadingContainer({ paragraph }: { paragraph: string[] }) {
 
         <div className="mt-auto flex flex-row gap-2">
           <button
-            className="bg-[#ffffff] p-5 font-bold text-[#000000]"
+            className="bg-[#ffffff] p-5 font-bold text-[#000000] transition duration-100 ease-in-out hover:bg-[#000000] hover:text-[#ffffff]"
             onClick={() => setPause(!pause)}
           >
             {pause ? (
@@ -168,7 +168,7 @@ export function ReadingContainer({ paragraph }: { paragraph: string[] }) {
           </button>
           {wordIndex !== 0 ? (
             <button
-              className="bg-[#ffffff] p-5 font-bold text-[#000000]"
+              className="bg-[#ffffff] p-5 font-bold text-[#000000] transition duration-100 ease-in-out hover:bg-[#000000] hover:text-[#ffffff]"
               onClick={() => {
                 setPause(true);
                 setWordIndex(0);
