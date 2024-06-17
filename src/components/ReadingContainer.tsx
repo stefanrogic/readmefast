@@ -54,7 +54,7 @@ export function ReadingContainer({ paragraph }: { paragraph: string[] }) {
       setPause(true);
       setWordIndex(0);
     }
-  }, [paragraph, word, wordIndex]);
+  }, [paragraph, word, wordIndex, defaultSpeed]);
 
   useEffect(() => {
     const timer = setInterval(() => {
