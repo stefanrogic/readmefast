@@ -73,7 +73,7 @@ export function ReadingContainer({ paragraph }: { paragraph: string[] }) {
 
   return (
     <>
-      <nav className="fixed right-0 top-0 flex h-full flex-col items-end justify-between p-10 opacity-50 hover:opacity-100">
+      <nav className="fixed right-0 top-0 flex h-full flex-col items-end justify-between p-10 opacity-50 transition delay-100 ease-in-out hover:opacity-100">
         <div className="flex flex-col gap-2">
           <span className="text-wrap text-center">
             {pause
