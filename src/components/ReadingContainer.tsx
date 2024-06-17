@@ -11,42 +11,42 @@ export function ReadingContainer({ paragraph }: { paragraph: string[] }) {
   const [currentSpeed, setCurrentSpeed] = useState<number>(300);
 
   useEffect(() => {
-    //? Uspori na pocetku
-    if (wordIndex === 0) {
-      setCurrentSpeed(800);
+    //? Uspori na duzim recima
+    if (word.length > 10) {
+      setCurrentSpeed(defaultSpeed + 200);
 
       setTimeout(
         () =>
           word.endsWith(".")
             ? setCurrentSpeed(defaultSpeed)
-            : setCurrentSpeed(800),
-        800,
+            : setCurrentSpeed(defaultSpeed + 200),
+        defaultSpeed + 200,
       );
     }
 
-    //? Uspori kad je kraj recenice
-    if (word.endsWith(".")) {
-      setCurrentSpeed(800);
+    //? Uspori na pocetku i kad je kraj recenice
+    if (wordIndex === 0 || word.endsWith(".")) {
+      setCurrentSpeed(defaultSpeed + 500);
 
       setTimeout(
         () =>
           word.endsWith(".")
             ? setCurrentSpeed(defaultSpeed)
-            : setCurrentSpeed(800),
-        800,
+            : setCurrentSpeed(defaultSpeed + 500),
+        defaultSpeed + 500,
       );
     }
 
     //? Uspori kad je zarez
     if (word.endsWith(",")) {
-      setCurrentSpeed(500);
+      setCurrentSpeed(defaultSpeed + 200);
 
       setTimeout(
         () =>
           word.endsWith(",")
             ? setCurrentSpeed(defaultSpeed)
-            : setCurrentSpeed(500),
-        500,
+            : setCurrentSpeed(defaultSpeed + 200),
+        defaultSpeed + 200,
       );
     }
 
