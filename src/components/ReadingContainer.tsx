@@ -98,6 +98,7 @@ export function ReadingContainer({ paragraph }: { paragraph: string[] }) {
             {pause ? (
               <>
                 <motion.button
+                  key={0}
                   className="ms-auto bg-[#ffffff] p-5 font-bold text-[#000000] transition duration-100 ease-in-out hover:bg-[#000000] hover:text-[#ffffff]"
                   variants={variants}
                   initial="hide"
@@ -122,6 +123,7 @@ export function ReadingContainer({ paragraph }: { paragraph: string[] }) {
                 </motion.button>
 
                 <motion.button
+                  key={1}
                   className="ms-auto bg-[#ffffff] p-5 font-bold text-[#000000] transition duration-100 ease-in-out hover:bg-[#000000] hover:text-[#ffffff]"
                   variants={variants}
                   initial="hide"
@@ -152,9 +154,10 @@ export function ReadingContainer({ paragraph }: { paragraph: string[] }) {
         </div>
 
         <div className="mt-auto flex flex-row gap-2">
-          {wordIndex !== 0 ? (
-            <AnimatePresence>
+          <AnimatePresence>
+            {wordIndex !== 0 ? (
               <motion.button
+                key={0}
                 className="bg-[#ffffff] p-5 font-bold text-[#000000] transition duration-100 ease-in-out hover:bg-[#000000] hover:text-[#ffffff]"
                 variants={variants}
                 initial="hide"
@@ -181,11 +184,10 @@ export function ReadingContainer({ paragraph }: { paragraph: string[] }) {
                   ></path>
                 </svg>
               </motion.button>
-            </AnimatePresence>
-          ) : null}
+            ) : null}
 
-          <AnimatePresence>
             <motion.button
+              key={1}
               className="bg-[#ffffff] p-5 font-bold text-[#000000] transition duration-100 ease-in-out hover:bg-[#000000] hover:text-[#ffffff]"
               variants={variants}
               initial="hide"
@@ -241,18 +243,37 @@ export function ReadingContainer({ paragraph }: { paragraph: string[] }) {
 
       <div className="flex flex-col items-center justify-center">
         <AnimatePresence>
-          <motion.h1
-            className="text-center text-7xl font-bold"
-            variants={variants}
-            initial="hide"
-            animate="show"
-            exit="hide"
-          >
+          {pause ? (
+            <motion.p
+              key={0}
+              className="fixed top-[150px] hidden w-[70%] xl:block"
+              variants={variants}
+              initial="hide"
+              animate="show"
+              exit="hide"
+            >
+              {paragraph.map((p, i) => (
+                <>
+                  <span
+                    className={wordIndex - 1 === i ? "bg-slate-500" : ""}
+                    key={i}
+                  >
+                    {p}
+                  </span>
+                  <span> </span>
+                </>
+              ))}
+            </motion.p>
+          ) : null}
+
+          <motion.h1 className="text-center text-7xl font-bold">
             {word}
           </motion.h1>
+
           {pause ? (
             <motion.span
-              className="text-center text-xl font-light text-[#bdbdbd]"
+              key={1}
+              className="mt-2 text-center text-xl font-light text-[#bdbdbd]"
               variants={variants}
               initial="hide"
               animate="show"
