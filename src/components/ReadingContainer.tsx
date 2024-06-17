@@ -75,13 +75,13 @@ export function ReadingContainer({ paragraph }: { paragraph: string[] }) {
     <>
       <nav className="fixed right-0 top-0 flex h-full flex-col items-end justify-between p-10 opacity-50 hover:opacity-100">
         <div className="flex flex-col gap-2">
+          <span className="text-wrap text-center">
+            {pause
+              ? `Default WPS: ${defaultSpeed}ms`
+              : `Current WPS: ${currentSpeed}ms`}
+          </span>
           {pause ? (
             <>
-              <span className="text-wrap text-center">
-                {pause
-                  ? `Default WPS: ${defaultSpeed}ms`
-                  : `Current WPS: ${currentSpeed}ms`}
-              </span>
               <button
                 className="ms-auto bg-[#ffffff] p-5 font-bold text-[#000000]"
                 onClick={() => setDefaultSpeed(defaultSpeed + 100)}
@@ -129,7 +129,7 @@ export function ReadingContainer({ paragraph }: { paragraph: string[] }) {
           )}
         </div>
 
-        <div className="mt-auto flex flex-row">
+        <div className="mt-auto flex flex-row gap-2">
           <button
             className="bg-[#ffffff] p-5 font-bold text-[#000000]"
             onClick={() => setPause(!pause)}
