@@ -10,50 +10,37 @@ export function ReadingContainer({ paragraph }: { paragraph: string[] }) {
   const [defaultSpeed, setDefaultSpeed] = useState<number>(300);
   const [currentSpeed, setCurrentSpeed] = useState<number>(300);
 
+  const variants = {
+    hide: { opacity: 0 },
+    show: { opacity: 1, transition: { opacity: { duration: 1 } } },
+  };
+
+  const buttonDefaultStyle =
+    "bg-[#ffffff] p-5 text-[#000000] font-bold transition duration-100 ease-in-out hover:bg-[#adadad] hover:text-[#ffffff]";
+
   useEffect(() => {
+    const handleSpeed = (speed: number, condition: boolean) => {
+      if (condition) {
+        setCurrentSpeed(defaultSpeed + speed);
+        setTimeout(
+          () =>
+            word.endsWith(".")
+              ? setCurrentSpeed(defaultSpeed)
+              : setCurrentSpeed(defaultSpeed + speed),
+          defaultSpeed + speed,
+        );
+      }
+    };
+
     //? Uspori na duzim recima
-    if (word.length > 10) {
-      setCurrentSpeed(defaultSpeed + 200);
-
-      setTimeout(
-        () =>
-          word.endsWith(".")
-            ? setCurrentSpeed(defaultSpeed)
-            : setCurrentSpeed(defaultSpeed + 200),
-        defaultSpeed + 200,
-      );
-    }
-
+    handleSpeed(200, word.length > 10);
     //? Uspori na pocetku i kad je kraj recenice
-    if (wordIndex === 0 || word.endsWith(".")) {
-      setCurrentSpeed(defaultSpeed + 500);
-
-      setTimeout(
-        () =>
-          word.endsWith(".")
-            ? setCurrentSpeed(defaultSpeed)
-            : setCurrentSpeed(defaultSpeed + 500),
-        defaultSpeed + 500,
-      );
-    }
-
+    handleSpeed(500, wordIndex === 0 || word.endsWith("."));
     //? Uspori kad je zarez
-    if (word.endsWith(",")) {
-      setCurrentSpeed(defaultSpeed + 200);
-
-      setTimeout(
-        () =>
-          word.endsWith(",")
-            ? setCurrentSpeed(defaultSpeed)
-            : setCurrentSpeed(defaultSpeed + 200),
-        defaultSpeed + 200,
-      );
-    }
-
-    if (wordIndex === paragraph?.length) {
-      setPause(true);
-      setWordIndex(0);
-    }
+    handleSpeed(200, word.endsWith(","));
+    //? Pauziraj kad se zavrsi citanje paragrafa
+    if (wordIndex === paragraph?.length) setPause(true);
+    //////////////////////////////////////////////////////////
   }, [paragraph, word, wordIndex, defaultSpeed]);
 
   useEffect(() => {
@@ -71,18 +58,13 @@ export function ReadingContainer({ paragraph }: { paragraph: string[] }) {
     };
   }, [paragraph, pause, wordIndex, currentSpeed]);
 
-  const variants = {
-    hide: { opacity: 0 },
-    show: { opacity: 1, transition: { opacity: { duration: 1 } } },
-  };
-
   return (
     <>
-      <nav className="fixed right-0 top-0 flex h-full flex-col items-end justify-between p-10 opacity-50 transition duration-150 ease-in-out hover:opacity-100">
-        <div className="flex flex-col gap-2">
+      <nav className="fixed bottom-0 z-50 flex w-full flex-row justify-between p-[50px] opacity-50 transition duration-150 ease-in-out hover:opacity-100">
+        <div className="flex flex-row gap-2">
           <AnimatePresence>
             <motion.span
-              className="text-wrap text-center"
+              className="me-[25px] mt-auto text-wrap text-center"
               variants={variants}
               initial="hide"
               animate="show"
@@ -98,33 +80,8 @@ export function ReadingContainer({ paragraph }: { paragraph: string[] }) {
             {pause ? (
               <>
                 <motion.button
-                  key={0}
-                  className="ms-auto bg-[#ffffff] p-5 font-bold text-[#000000] transition duration-100 ease-in-out hover:bg-[#000000] hover:text-[#ffffff]"
-                  variants={variants}
-                  initial="hide"
-                  animate="show"
-                  exit="hide"
-                  onClick={() => setDefaultSpeed(defaultSpeed + 100)}
-                >
-                  <svg
-                    width="15"
-                    height="15"
-                    viewBox="0 0 15 15"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M8 2.75C8 2.47386 7.77614 2.25 7.5 2.25C7.22386 2.25 7 2.47386 7 2.75V7H2.75C2.47386 7 2.25 7.22386 2.25 7.5C2.25 7.77614 2.47386 8 2.75 8H7V12.25C7 12.5261 7.22386 12.75 7.5 12.75C7.77614 12.75 8 12.5261 8 12.25V8H12.25C12.5261 8 12.75 7.77614 12.75 7.5C12.75 7.22386 12.5261 7 12.25 7H8V2.75Z"
-                      fill="currentColor"
-                      fillRule="evenodd"
-                      clipRule="evenodd"
-                    ></path>
-                  </svg>
-                </motion.button>
-
-                <motion.button
                   key={1}
-                  className="ms-auto bg-[#ffffff] p-5 font-bold text-[#000000] transition duration-100 ease-in-out hover:bg-[#000000] hover:text-[#ffffff]"
+                  className={buttonDefaultStyle}
                   variants={variants}
                   initial="hide"
                   animate="show"
@@ -148,6 +105,31 @@ export function ReadingContainer({ paragraph }: { paragraph: string[] }) {
                     ></path>
                   </svg>
                 </motion.button>
+
+                <motion.button
+                  key={0}
+                  className={buttonDefaultStyle}
+                  variants={variants}
+                  initial="hide"
+                  animate="show"
+                  exit="hide"
+                  onClick={() => setDefaultSpeed(defaultSpeed + 100)}
+                >
+                  <svg
+                    width="15"
+                    height="15"
+                    viewBox="0 0 15 15"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M8 2.75C8 2.47386 7.77614 2.25 7.5 2.25C7.22386 2.25 7 2.47386 7 2.75V7H2.75C2.47386 7 2.25 7.22386 2.25 7.5C2.25 7.77614 2.47386 8 2.75 8H7V12.25C7 12.5261 7.22386 12.75 7.5 12.75C7.77614 12.75 8 12.5261 8 12.25V8H12.25C12.5261 8 12.75 7.77614 12.75 7.5C12.75 7.22386 12.5261 7 12.25 7H8V2.75Z"
+                      fill="currentColor"
+                      fillRule="evenodd"
+                      clipRule="evenodd"
+                    ></path>
+                  </svg>
+                </motion.button>
               </>
             ) : null}
           </AnimatePresence>
@@ -158,7 +140,7 @@ export function ReadingContainer({ paragraph }: { paragraph: string[] }) {
             {wordIndex !== 0 ? (
               <motion.button
                 key={0}
-                className="bg-[#ffffff] p-5 font-bold text-[#000000] transition duration-100 ease-in-out hover:bg-[#000000] hover:text-[#ffffff]"
+                className={buttonDefaultStyle}
                 variants={variants}
                 initial="hide"
                 animate="show"
@@ -188,7 +170,7 @@ export function ReadingContainer({ paragraph }: { paragraph: string[] }) {
 
             <motion.button
               key={1}
-              className="bg-[#ffffff] p-5 font-bold text-[#000000] transition duration-100 ease-in-out hover:bg-[#000000] hover:text-[#ffffff]"
+              className={buttonDefaultStyle}
               variants={variants}
               initial="hide"
               animate="show"
@@ -241,48 +223,61 @@ export function ReadingContainer({ paragraph }: { paragraph: string[] }) {
         </div>
       </nav>
 
-      <div className="flex flex-col items-center justify-center">
+      <div className="flex h-[100vh] flex-row items-center justify-center gap-20 p-[50px]">
         <AnimatePresence>
           {pause ? (
-            <motion.p
-              key={0}
-              className="fixed top-[150px] hidden w-[70%] xl:block"
-              variants={variants}
-              initial="hide"
-              animate="show"
-              exit="hide"
+            <motion.div
+              className="flex max-h-[80%] w-1/3 items-start justify-start bg-white text-black"
+              initial={{ width: 0 }}
+              animate={{ width: "33%" }}
+              exit={{ width: 0 }}
             >
-              {paragraph.map((p, i) => (
-                <>
-                  <span
-                    className={wordIndex - 1 === i ? "bg-slate-500" : ""}
-                    key={i}
-                  >
-                    {p}
-                  </span>
-                  <span> </span>
-                </>
-              ))}
-            </motion.p>
-          ) : null}
-
-          <motion.h1 className="text-center text-7xl font-bold">
-            {word}
-          </motion.h1>
-
-          {pause ? (
-            <motion.span
-              key={1}
-              className="mt-2 text-center text-xl font-light text-[#bdbdbd]"
-              variants={variants}
-              initial="hide"
-              animate="show"
-              exit="hide"
-            >
-              Mali Princ - Odlomak
-            </motion.span>
+              <motion.p
+                key={0}
+                className="mx-10 my-36 hidden xl:block"
+                variants={variants}
+                initial="hide"
+                animate="show"
+                exit="hide"
+              >
+                <h2 className="mb-5 text-center text-2xl font-bold">
+                  Mali Princ - Odlomak
+                </h2>
+                {paragraph.map((p, i) => (
+                  <>
+                    <span
+                      key={i}
+                      className={i === wordIndex - 1 ? "bg-slate-500" : ""}
+                    >
+                      {p + " "}
+                    </span>
+                  </>
+                ))}
+              </motion.p>
+            </motion.div>
           ) : null}
         </AnimatePresence>
+
+        <div className="flex w-2/3 flex-col items-center justify-center gap-2">
+          <AnimatePresence>
+            <motion.h1 className="text-center text-7xl font-bold">
+              {word}
+            </motion.h1>
+
+            {pause ? (
+              <motion.span
+                key={0}
+                className="text-center text-xl font-light text-[#bdbdbd]"
+                variants={variants}
+                initial="hide"
+                animate="show"
+                exit="hide"
+              >
+                Mali Princ - Odlomak
+              </motion.span>
+            ) : null}
+          </AnimatePresence>
+        </div>
       </div>
     </>
   );
