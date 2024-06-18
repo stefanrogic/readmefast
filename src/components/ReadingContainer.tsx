@@ -24,7 +24,7 @@ export function ReadingContainer({ paragraph }: { paragraph: string[] }) {
         setCurrentSpeed(defaultSpeed + speed);
         setTimeout(
           () =>
-            word.endsWith(".")
+            condition
               ? setCurrentSpeed(defaultSpeed)
               : setCurrentSpeed(defaultSpeed + speed),
           defaultSpeed + speed,
@@ -55,6 +55,7 @@ export function ReadingContainer({ paragraph }: { paragraph: string[] }) {
 
     return () => {
       clearInterval(timer);
+      console.log("h2");
     };
   }, [paragraph, pause, wordIndex, currentSpeed]);
 
@@ -64,6 +65,7 @@ export function ReadingContainer({ paragraph }: { paragraph: string[] }) {
         <div className="flex flex-row gap-2">
           <AnimatePresence>
             <motion.span
+              key={0}
               className="me-[25px] mt-auto text-wrap text-center"
               variants={variants}
               initial="hide"
@@ -107,7 +109,7 @@ export function ReadingContainer({ paragraph }: { paragraph: string[] }) {
                 </motion.button>
 
                 <motion.button
-                  key={0}
+                  key={2}
                   className={buttonDefaultStyle}
                   variants={variants}
                   initial="hide"
@@ -139,7 +141,7 @@ export function ReadingContainer({ paragraph }: { paragraph: string[] }) {
           <AnimatePresence>
             {wordIndex !== 0 ? (
               <motion.button
-                key={0}
+                key={3}
                 className={buttonDefaultStyle}
                 variants={variants}
                 initial="hide"
@@ -169,7 +171,7 @@ export function ReadingContainer({ paragraph }: { paragraph: string[] }) {
             ) : null}
 
             <motion.button
-              key={1}
+              key={4}
               className={buttonDefaultStyle}
               variants={variants}
               initial="hide"
@@ -227,22 +229,22 @@ export function ReadingContainer({ paragraph }: { paragraph: string[] }) {
         <AnimatePresence>
           {pause ? (
             <motion.div
-              className="flex max-h-[80%] w-1/3 items-start justify-start bg-white text-black"
+              className="flex max-h-[80%] w-1/3 flex-col items-start justify-start bg-white text-black"
               initial={{ width: 0 }}
               animate={{ width: "33%" }}
               exit={{ width: 0 }}
             >
+              <h2 className="mx-auto my-10 text-center text-2xl font-bold">
+                Mali Princ - Odlomak
+              </h2>
               <motion.p
-                key={0}
-                className="mx-10 my-36 hidden xl:block"
+                key={5}
+                className="mx-10 mb-20 hidden xl:block"
                 variants={variants}
                 initial="hide"
                 animate="show"
                 exit="hide"
               >
-                <h2 className="mb-5 text-center text-2xl font-bold">
-                  Mali Princ - Odlomak
-                </h2>
                 {paragraph.map((p, i) => (
                   <>
                     <span
@@ -259,14 +261,11 @@ export function ReadingContainer({ paragraph }: { paragraph: string[] }) {
         </AnimatePresence>
 
         <div className="flex w-2/3 flex-col items-center justify-center gap-2">
+          <h1 className="text-center text-7xl font-bold">{word}</h1>
           <AnimatePresence>
-            <motion.h1 className="text-center text-7xl font-bold">
-              {word}
-            </motion.h1>
-
             {pause ? (
               <motion.span
-                key={0}
+                key={6}
                 className="text-center text-xl font-light text-[#bdbdbd]"
                 variants={variants}
                 initial="hide"
